@@ -1401,9 +1401,13 @@
                 }
                 cx.restore();
                 // score
-                cx.fillStyle = '#0038b8';
                 cx.font = 'bold 38px Arial';
                 cx.textAlign = 'left';
+                cx.lineWidth = 6;
+                cx.lineJoin = 'round';
+                cx.strokeStyle = '#0038b8';
+                cx.strokeText(G.score, 20, 50);
+                cx.fillStyle = '#ffffff';
                 cx.fillText(G.score, 20, 50);
                 if (!G.run && !G.dead) {
                     cx.fillStyle = 'rgba(0,56,184,.85)';
@@ -1441,9 +1445,6 @@
                                 gapY: 120 + Math.random() * (cv.height - 340)
                             });
                         }
-                        if (G.pipes[0].x < -pw)
-                            G.pipes.shift();
-                        // collision
                         const bx = 110
                           , br = 20;
                         if (G.y > cv.height - 58 || G.y < 0)
@@ -1454,13 +1455,15 @@
                                   , botY = p.gapY + gap / 2;
                                 if (G.y - br < topH + 8 || G.y + br > botY - 8)
                                     G.dead = true;
-                                if (!p.passed && p.x + pw < bx - br) {
-                                    p.passed = true;
-                                    G.score++;
-                                }
+                            }
+                            if (!p.passed && p.x + pw < bx - br) {
+                                p.passed = true;
+                                G.score++;
                             }
                         }
                         );
+                        if (G.pipes[0].x < -pw)
+                            G.pipes.shift();
                     }
                     drawGame();
                 }
